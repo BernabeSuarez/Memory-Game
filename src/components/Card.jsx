@@ -4,8 +4,8 @@ import "../../src/App.css";
 
 const CardContainer = styled.div`
   position: relative;
-  width: 100px;
-  margin: auto;
+  width: 80%;
+  margin: 1% auto 2% auto;
   border-radius: 20px;
 
   & img {
@@ -13,12 +13,17 @@ const CardContainer = styled.div`
   }
 `;
 
-const Card = ({ item, id, handleClick, flipped }) => {
+const Card = ({ item, handleClick, flipped }) => {
   return (
-    <CardContainer onClick={() => handleClick(item)}>
+    <CardContainer>
       <div className={flipped ? "flipped" : ""}>
         <img className="front" src={item.img} alt={item.name} />
-        <img className="back" src="Img/Card Back.jpg" alt=" Card Back" />
+        <img
+          className="back"
+          src="Img/Card Back.jpg"
+          alt=" Card Back"
+          onClick={() => handleClick(item)}
+        />
       </div>
     </CardContainer>
   );

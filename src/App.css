@@ -1,14 +1,18 @@
 .App {
+  padding: 4%;
   text-align: center;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  flex-direction: row;
 }
 
 .front {
   position: absolute;
   transform: rotateY(90deg);
+}
+
+.imgContainer {
+  height: 90%;
+  box-shadow: 2px 18px 19px 0px rgba(0, 0, 0, 0.75);
 }
 
 .flipped .front {

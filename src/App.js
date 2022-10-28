@@ -2,33 +2,86 @@ import './App.css';
 import { useState, useEffect } from 'react';
 import Card from './components/Card';
 import styled from 'styled-components';
-import { dataImg } from './data/data';
+import { easy } from './data/data';
 
+const ComandsContainer = styled.div`
+
+width:30%;
+margin: auto;
+display:flex;
+padding: 2%;
+flex-direction:column;
+`
+
+const StartContainer = styled.div`
+width:100%;
+display: flex;
+flex-direction: column;
+justify-content: center; 
+align-items: center;
+`
 
 const GameContainer = styled.div`
-width:50%;
+width:60%;
+height: 65vh;
 display: grid;
 grid-template-columns: repeat(4, 1fr);
 grid-template-rows: repeat(4, 1fr);
-grid-column-gap: 5px;
-grid-row-gap: 5px;
+
 `
+const H1 = styled.h1`
+font-family: "Bangers";
+color: #fafafa;
+letter-spacing: 0.12rem;
+text-shadow: 2px 2px #000000;
+`
+
+const H3 = styled.h3`
+font-family: "Bangers";
+color: #fafafa;
+letter-spacing: 0.12rem;
+text-shadow: 2px 2px #000000;
+`
+
+
+const Button = styled.button`
+background-color: lightcyan;
+width: 6rem;
+font-family: "Bangers";
+height: 2rem;
+color: black;
+border: none;
+&:hover{
+  color:white;
+  background-color: red;
+}
+`
+
 function App() {
   const [items, setItems] = useState([])  //crea un estado de array vacio para la data
   const [turns, setTurns] = useState(0)
   const [choiceOne, setChoiceOne] = useState(null)
   const [choiceTwo, setChoiceTwo] = useState(null)
-  const [score, setScore] = useState(0) // records de intentos
+
+  let [score, setScore] = useState(null) // records de intentos
+
+  let levelSelected = [...easy, ...easy]
 
 
 
   const shuffleCards = () => {
-    const shuffle = [...dataImg, ...dataImg]  //crea un array duplicando las imagenes en pares
+    const shuffle = levelSelected //[...dataImg, ...dataImg]  //crea un array duplicando las imagenes en pares
       .sort(() => Math.random() - 0.5)   // mezcla la data 
       .map((card) => ({ ...card, id: Math.random() })) // le da un Id aleatorio a cada objeto del array
     setItems(shuffle)  // carga la data mezclada al array vacio
-    setTurns(0)   //setea los turnos de juego desde 0
+    setTurns(0)
+    if (turns < score) {
+      setScore(turns)
+    }   //setea los turnos de juego desde 0
+
   }
+
+
 
 
   const handleClick = (item) => {   //funcion que se pasa como props al componente
@@ -62,19 +115,12 @@ function App() {
     setChoiceOne(null)
     setChoiceTwo(null)
     setTurns(prevturns => prevturns + 1)
-
   }
 
-  const HighScore = () => {
-    setScore(turns)
-  }
+
 
   return (
     <div className="App">
-      <h1>Memory Game</h1>
-      <div>{turns}</div>
-      <div>{score}</div>
-      <button onClick={shuffleCards}>Nuevo Juego</button>
       <GameContainer>
         {items.map((item, index) =>
           <Card
@@ -85,6 +131,15 @@ function App() {
             flipped={item === choiceOne || item === choiceTwo || item.matched} //Rota la carta para ver la imagen
           />)}
       </GameContainer>
+      <ComandsContainer>
+        <H1>Memory Game</H1>
+        <StartContainer>
+          <H3>Intentos: {turns}</H3>
+          <H3>Puntuacion Maxima {score}</H3>
+          <Button onClick={shuffleCards}>Mezclar</Button>
+        </StartContainer>
+      </ComandsContainer>
+
 
 
     </div>
